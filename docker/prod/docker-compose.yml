@@ -1,0 +1,10 @@
+services:
+  slack-ips:
+    container_name: slack-ips
+    image: dusnm1/slack-ips:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./data:/opt/slack-ips/data"
+      - "./config:/opt/slack-ips/config"
