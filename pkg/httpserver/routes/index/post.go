@@ -70,9 +70,12 @@ func POST(
 			return httpserver.JSON(http.StatusOK, w, commandresponse.Message{
 				ResponseType: "ephemeral",
 				Blocks: []any{
-					commandresponse.Text{
-						Type: "plain_text",
-						Text: "An unknown error occurred. Please try again later.",
+					commandresponse.Section{
+						Type: "section",
+						Text: commandresponse.Text{
+							Type: "plain_text",
+							Text: err.Error(),
+						},
 					},
 				},
 			})
@@ -81,9 +84,12 @@ func POST(
 		return httpserver.JSON(http.StatusOK, w, commandresponse.Message{
 			ResponseType: "ephemeral",
 			Blocks: []any{
-				commandresponse.Text{
-					Type: "plain_text",
-					Text: "Hmm, I can't seem to find your bank account details. Did you forget to save them with /ips init ?",
+				commandresponse.Section{
+					Type: "section",
+					Text: commandresponse.Text{
+						Type: "plain_text",
+						Text: "Hmm, I can't seem to find your bank account details. Did you forget to save them with /ips init ?",
+					},
 				},
 			},
 		})
