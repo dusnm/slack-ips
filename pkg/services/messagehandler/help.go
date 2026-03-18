@@ -15,7 +15,14 @@ func (s *Service) handleHelpMessage(ctx context.Context, msg slack.Message) (com
 				Type: "header",
 				Text: commandresponse.Text{
 					Type: "plain_text",
-					Text: "IPQ QR - Help",
+					Text: "IPS QR - Help",
+				},
+			},
+			commandresponse.Section{
+				Type: "section",
+				Text: commandresponse.Text{
+					Type: "plain_text",
+					Text: "Copyright © 2026 Dušan Mitrović <dusan@dusanmitrovic.rs>\nEasily share your bank account details with others.",
 				},
 			},
 			commandresponse.Section{
