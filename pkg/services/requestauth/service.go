@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/dusnm/slack-ips/pkg/dto/slack"
@@ -59,7 +60,8 @@ func (s *Service) Verify(details slack.AuthDetails) (bool, error) {
 		return false, err
 	}
 
-	providedSignature, err := hex.DecodeString(details.RequestSignature)
+	providedSignatureStr, _ := strings.CutPrefix(details.RequestSignature, "v0=")
+	providedSignature, err := hex.DecodeString(providedSignatureStr)
 	if err != nil {
 		return false, err
 	}
