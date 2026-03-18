@@ -1,6 +1,9 @@
 package models
 
-import "net/url"
+import (
+	"net/url"
+	"strconv"
+)
 
 type (
 	User struct {
@@ -13,7 +16,7 @@ type (
 	}
 )
 
-func (u User) QRCodeURL(host string, secure bool) string {
+func (u User) QRCodeURL(host string, secure bool, amount float64) string {
 	uri := new(url.URL)
 	if secure {
 		uri.Scheme = "https"
@@ -26,6 +29,9 @@ func (u User) QRCodeURL(host string, secure bool) string {
 	uri.Path = "/image"
 
 	query.Add("userId", u.ID)
+	if amount > 0 {
+		query.Add("amount", strconv.FormatFloat(amount, 'f', 2, 64))
+	}
 
 	uri.RawQuery = query.Encode()
 
