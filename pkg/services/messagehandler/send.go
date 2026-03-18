@@ -26,14 +26,17 @@ func constructSuccessfulSendResponse(cfg config.App, user models.User) commandre
 	return commandresponse.Message{
 		ResponseType: "in_channel",
 		Blocks: []any{
-			commandresponse.Text{
-				Type: "markdown",
-				Text: fmt.Sprintf(
-					"# %s\n* IBAN: %s\n*Place: %s",
-					user.Name,
-					user.BankAccountNumber,
-					user.City,
-				),
+			commandresponse.Section{
+				Type: "section",
+				Text: commandresponse.Text{
+					Type: "mrkdwn",
+					Text: fmt.Sprintf(
+						"*%s*\n* IBAN: %s\n*Place: %s",
+						user.Name,
+						user.BankAccountNumber,
+						user.City,
+					),
+				},
 			},
 			commandresponse.Image{
 				Type:     "image",

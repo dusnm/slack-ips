@@ -100,9 +100,12 @@ func constructSuccessfulInitResponse() commandresponse.Message {
 	return commandresponse.Message{
 		ResponseType: "ephemeral",
 		Blocks: []any{
-			commandresponse.Text{
-				Type: "markdown",
-				Text: "# Success ✅\nThe details of your bank account have been saved.",
+			commandresponse.Section{
+				Type: "section",
+				Text: commandresponse.Text{
+					Type: "mrkdwn",
+					Text: "*Success*\nThe details of your bank account have been saved.",
+				},
 			},
 		},
 	}

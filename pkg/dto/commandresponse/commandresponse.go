@@ -6,6 +6,11 @@ type (
 		Blocks       []any  `json:"blocks"`
 	}
 
+	Section struct {
+		Type string `json:"type"`
+		Text Text   `json:"text"`
+	}
+
 	Text struct {
 		Type string `json:"type"`
 		Text string `json:"text"`
