@@ -31,7 +31,7 @@ func constructSuccessfulSendResponse(cfg config.App, user models.User) commandre
 				Text: commandresponse.Text{
 					Type: "mrkdwn",
 					Text: fmt.Sprintf(
-						"*%s*\n* IBAN: %s\n*Place: %s",
+						"*%s*\nIBAN: *%s*\nPlace: *%s*",
 						user.Name,
 						user.BankAccountNumber,
 						user.City,
