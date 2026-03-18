@@ -49,13 +49,8 @@ func (s *Service) Verify(details slack.AuthDetails) (bool, error) {
 	buff.WriteString(":")
 	buff.Write(bodyBytes)
 
-	signingSecret, err := hex.DecodeString(details.SigningSecret)
-	if err != nil {
-		return false, err
-	}
-
-	hasher := hmac.New(sha256.New, signingSecret)
-	_, err = hasher.Write(buff.Bytes())
+	hasher := hmac.New(sha256.New, []byte(details.SigningSecret))
+	_, err := hasher.Write(buff.Bytes())
 	if err != nil {
 		return false, err
 	}
@@ -71,7 +66,7 @@ func (s *Service) Verify(details slack.AuthDetails) (bool, error) {
 	if !verified {
 		s.logger.
 			Warn().
-			Str("provided_signature", details.RequestSignature).
+			Str("provided_signature", providedSignatureStr).
 			Str("computed_signature", hex.EncodeToString(computedSignature)).
 			Bytes("payload", bodyBytes).
 			Msg("signatures don't match")
