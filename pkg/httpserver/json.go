@@ -20,8 +20,8 @@ func JSON(status int, w http.ResponseWriter, data any) error {
 		return err
 	}
 
-	w.WriteHeader(status)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
 	_, err = w.Write(body)
 	return err
 }
