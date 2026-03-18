@@ -16,6 +16,7 @@ const (
 	initCommand   = "init"
 	sendCommand   = "send"
 	deleteCommand = "delete"
+	helpCommand   = "help"
 )
 
 var (
@@ -48,14 +49,36 @@ func (s *Service) HandleMessage(ctx context.Context, msg slack.Message) (command
 
 	switch {
 	case strings.HasPrefix(text, initCommand):
-		s.logger.Debug().Str("command", initCommand).Str("input", text).Send()
+		s.logger.
+			Debug().
+			Str("command", initCommand).
+			Str("user", msg.UserName).
+			Str("input", text).
+			Send()
 		return s.handleInitMessage(ctx, msg)
 	case strings.HasPrefix(text, sendCommand):
-		s.logger.Debug().Str("command", sendCommand).Str("input", text).Send()
+		s.logger.
+			Debug().
+			Str("command", sendCommand).
+			Str("user", msg.UserName).
+			Str("input", text).
+			Send()
 		return s.handleSendMessage(ctx, msg)
 	case strings.HasPrefix(text, deleteCommand):
-		s.logger.Debug().Str("command", deleteCommand).Str("input", text).Send()
+		s.logger.
+			Debug().
+			Str("command", deleteCommand).
+			Str("user", msg.UserName).
+			Str("input", text).Send()
 		return s.handleDeleteMessage(ctx, msg)
+	case strings.HasPrefix(text, helpCommand):
+		s.logger.
+			Debug().
+			Str("command", helpCommand).
+			Str("user", msg.UserName).
+			Str("input", text).
+			Send()
+		return s.handleHelpMessage(ctx, msg)
 	default:
 		return commandresponse.Message{}, ErrUnknownCommand
 	}

@@ -7,8 +7,9 @@ type (
 	}
 
 	Section struct {
-		Type string `json:"type"`
-		Text Text   `json:"text"`
+		Type   string `json:"type"`
+		Text   Text   `json:"text,omitempty"`
+		Fields []any  `json:"fields,omitempty"`
 	}
 
 	Text struct {

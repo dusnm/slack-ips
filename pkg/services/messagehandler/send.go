@@ -57,7 +57,7 @@ func constructSuccessfulSendResponse(cfg config.App, user models.User, amount fl
 				Text: commandresponse.Text{
 					Type: "mrkdwn",
 					Text: fmt.Sprintf(
-						"Name: *%s*\nIBAN: *%s*\nPlace: *%s*\nAmount: *%.2fRSD*",
+						"• Name: *%s*\n• IBAN: *%s*\n• Place: *%s*\n• Amount: *%.2fRSD*",
 						user.Name,
 						user.BankAccountNumber,
 						user.City,
