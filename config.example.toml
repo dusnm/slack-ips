@@ -3,6 +3,8 @@ bind = '0.0.0.0'
 port = 3000
 domain = 'slack-ips.example.org'
 secure = true
+behind_proxy = true
+signing_secret = 'your_signing_secret'
 
 [slack]
 app_id = 'your_app_id'

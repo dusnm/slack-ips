@@ -3,6 +3,7 @@ package container
 import (
 	"github.com/dusnm/slack-ips/pkg/services/messagehandler"
 	"github.com/dusnm/slack-ips/pkg/services/requestauth"
+	"github.com/dusnm/slack-ips/pkg/services/urlsign"
 )
 
 func (c *Container) GetMessageHandlerService() *messagehandler.Service {
@@ -10,6 +11,7 @@ func (c *Container) GetMessageHandlerService() *messagehandler.Service {
 		c.messageHandlerService = messagehandler.New(
 			c.GetConfig().App,
 			c.GetUserRepository(),
+			c.GetURLSignService(),
 			c.logger.
 				With().
 				Str("component", "service:message_handler").
@@ -31,4 +33,18 @@ func (c *Container) GetRequestAuthService() *requestauth.Service {
 	}
 
 	return c.requestAuthService
+}
+
+func (c *Container) GetURLSignService() *urlsign.Service {
+	if c.urlSignService == nil {
+		c.urlSignService = urlsign.New(
+			c.GetConfig().App,
+			c.logger.
+				With().
+				Str("component", "service:urlsign").
+				Logger(),
+		)
+	}
+
+	return c.urlSignService
 }

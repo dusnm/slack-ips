@@ -8,6 +8,7 @@ import (
 	"github.com/dusnm/slack-ips/pkg/repositories/user"
 	"github.com/dusnm/slack-ips/pkg/services/messagehandler"
 	"github.com/dusnm/slack-ips/pkg/services/requestauth"
+	"github.com/dusnm/slack-ips/pkg/services/urlsign"
 	"github.com/rs/zerolog"
 )
 
@@ -18,6 +19,7 @@ type (
 		userRepo              *user.Repository
 		messageHandlerService *messagehandler.Service
 		requestAuthService    *requestauth.Service
+		urlSignService        *urlsign.Service
 		logger                zerolog.Logger
 	}
 )

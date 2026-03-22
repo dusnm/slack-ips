@@ -1,0 +1,21 @@
+version: "3"
+tasks:
+  fmt:
+    cmds:
+      - gofmt -w -s .
+  build:
+    env:
+      CGO_ENABLED: 0
+    cmds:
+      - mkdir -p ./build
+      - go mod tidy
+      - go mod download
+      - go mod verify
+      - go build -ldflags='-s -w -extldflags "-static"' -o ./build/slack-ips ./main.go
+  build-image:
+    cmds:
+      - docker buildx build -f ./docker/prod/Dockerfile -t dusnm1/slack-ips:latest .
+  run:
+    cmds:
+      - mkdir -p ./db
+      - go run ./main.go {{.CLI_ARGS}}

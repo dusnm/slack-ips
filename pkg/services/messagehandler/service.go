@@ -9,6 +9,7 @@ import (
 	"github.com/dusnm/slack-ips/pkg/dto/commandresponse"
 	"github.com/dusnm/slack-ips/pkg/dto/slack"
 	"github.com/dusnm/slack-ips/pkg/repositories/user"
+	"github.com/dusnm/slack-ips/pkg/services/urlsign"
 	"github.com/rs/zerolog"
 )
 
@@ -26,21 +27,24 @@ var (
 
 type (
 	Service struct {
-		cfg      config.App
-		userRepo *user.Repository
-		logger   zerolog.Logger
+		cfg            config.App
+		userRepo       *user.Repository
+		urlSignService *urlsign.Service
+		logger         zerolog.Logger
 	}
 )
 
 func New(
 	cfg config.App,
 	userRepo *user.Repository,
+	urlSignService *urlsign.Service,
 	logger zerolog.Logger,
 ) *Service {
 	return &Service{
-		cfg:      cfg,
-		userRepo: userRepo,
-		logger:   logger,
+		cfg:            cfg,
+		userRepo:       userRepo,
+		urlSignService: urlSignService,
+		logger:         logger,
 	}
 }
 

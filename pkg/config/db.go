@@ -3,7 +3,7 @@ package config
 import "errors"
 
 var (
-	ErrPathEmpty = errors.New("path cannot be empty")
+	ErrDBPathEmpty = errors.New("path cannot be empty")
 )
 
 type (
@@ -14,7 +14,7 @@ type (
 
 func (d DB) Validate() error {
 	if len(d.Path) == 0 {
-		return ErrPathEmpty
+		return ErrDBPathEmpty
 	}
 
 	return nil

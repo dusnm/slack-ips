@@ -5,6 +5,10 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+    environment:
+      - XDG_CONFIG_HOME=/opt/config
+      - XDG_CACHE_HOME=/opt/cache
+      - XDG_DATA_HOME=/opt/data
     volumes:
-      - "./data:/opt/slack-ips/data"
-      - "./config:/opt/slack-ips/config"
+      - "./data:/opt/data"
+      - "./config:/opt/config"

@@ -1,8 +1,11 @@
 package models
 
 import (
+	"net"
 	"net/url"
 	"strconv"
+
+	"github.com/dusnm/slack-ips/pkg/config"
 )
 
 type (
@@ -16,16 +19,24 @@ type (
 	}
 )
 
-func (u User) QRCodeURL(host string, secure bool, amount float64) string {
+func (u User) QRCodeURL(
+	cfg config.App,
+	amount float64,
+) *url.URL {
 	uri := new(url.URL)
-	if secure {
+	if cfg.Secure {
 		uri.Scheme = "https"
 	} else {
 		uri.Scheme = "http"
 	}
 
 	query := uri.Query()
-	uri.Host = host
+	if cfg.Port > 0 && !cfg.BehindProxy {
+		uri.Host = net.JoinHostPort(cfg.Domain, strconv.FormatUint(uint64(cfg.Port), 10))
+	} else {
+		uri.Host = cfg.Domain
+	}
+
 	uri.Path = "/image"
 
 	query.Add("userId", u.ID)
@@ -35,5 +46,5 @@ func (u User) QRCodeURL(host string, secure bool, amount float64) string {
 
 	uri.RawQuery = query.Encode()
 
-	return uri.String()
+	return uri
 }

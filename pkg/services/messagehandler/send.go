@@ -2,12 +2,12 @@ package messagehandler
 
 import (
 	"context"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 
-	"github.com/dusnm/slack-ips/pkg/config"
 	"github.com/dusnm/slack-ips/pkg/dto/commandresponse"
 	"github.com/dusnm/slack-ips/pkg/dto/slack"
 	"github.com/dusnm/slack-ips/pkg/models"
@@ -45,10 +45,20 @@ func (s *Service) handleSendMessage(
 		}
 	}
 
-	return constructSuccessfulSendResponse(s.cfg, user, amount), nil
+	uri := user.QRCodeURL(s.cfg, amount)
+	query := uri.Query()
+	signature, err := s.urlSignService.Sign(query)
+	if err != nil {
+		return commandresponse.Message{}, err
+	}
+
+	query.Add("sig", hex.EncodeToString(signature))
+	uri.RawQuery = query.Encode()
+
+	return constructSuccessfulSendResponse(user, amount, uri.String()), nil
 }
 
-func constructSuccessfulSendResponse(cfg config.App, user models.User, amount float64) commandresponse.Message {
+func constructSuccessfulSendResponse(user models.User, amount float64, uri string) commandresponse.Message {
 	return commandresponse.Message{
 		ResponseType: "in_channel",
 		Blocks: []any{
@@ -67,7 +77,7 @@ func constructSuccessfulSendResponse(cfg config.App, user models.User, amount fl
 			},
 			commandresponse.Image{
 				Type:     "image",
-				ImageURL: user.QRCodeURL(cfg.Domain, cfg.Secure, amount),
+				ImageURL: uri,
 				AltText:  "IPS QR Code",
 			},
 		},

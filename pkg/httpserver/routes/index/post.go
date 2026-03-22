@@ -54,7 +54,7 @@ func POST(
 	}
 
 	if !ok {
-		return httpserver.Err(http.StatusForbidden, w, httpserver.Forbidden)
+		return httpserver.Err(http.StatusForbidden, w, httpserver.ErrForbidden)
 	}
 
 	r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))

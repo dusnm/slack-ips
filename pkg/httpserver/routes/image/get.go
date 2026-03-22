@@ -2,9 +2,11 @@ package image
 
 import (
 	"context"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -28,9 +30,30 @@ func GET(
 
 	userID := r.URL.Query().Get("userId")
 	amount := r.URL.Query().Get("amount")
+	providedSignatureStr := r.URL.Query().Get("sig")
 
 	if len(userID) == 0 {
 		return httpserver.Err(http.StatusUnprocessableEntity, w, httpserver.ErrUnprocessable)
+	}
+
+	if len(providedSignatureStr) == 0 {
+		return httpserver.Err(http.StatusUnprocessableEntity, w, httpserver.ErrUnprocessable)
+	}
+
+	providedSignature, err := hex.DecodeString(providedSignatureStr)
+	if err != nil {
+		return httpserver.Err(http.StatusUnprocessableEntity, w, fmt.Errorf("%w: malformed signature", httpserver.ErrUnprocessable))
+	}
+
+	values := make(url.Values)
+	values.Add("userId", userID)
+	if len(amount) > 0 {
+		values.Add("amount", amount)
+	}
+
+	urlSignService := di.GetURLSignService()
+	if err = urlSignService.Verify(values, providedSignature); err != nil {
+		return httpserver.Err(http.StatusForbidden, w, fmt.Errorf("%w: %w", httpserver.ErrForbidden, err))
 	}
 
 	user, err := di.GetUserRepository().FindByID(ctx, userID)

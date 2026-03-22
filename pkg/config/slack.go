@@ -3,10 +3,10 @@ package config
 import "errors"
 
 var (
-	ErrAppIDEmpty         = errors.New("app id cannot be empty")
-	ErrClientIDEmpty      = errors.New("client id cannot be empty")
-	ErrClientSecretEmpty  = errors.New("client secret cannot be empty")
-	ErrSigningSecretEmpty = errors.New("signing secret cannot be empty")
+	ErrSlackAppIDEmpty         = errors.New("app id cannot be empty")
+	ErrSlackClientIDEmpty      = errors.New("client id cannot be empty")
+	ErrSlackClientSecretEmpty  = errors.New("client secret cannot be empty")
+	ErrSlackSigningSecretEmpty = errors.New("signing secret cannot be empty")
 )
 
 type (
@@ -20,19 +20,19 @@ type (
 
 func (s Slack) Validate() error {
 	if len(s.AppID) == 0 {
-		return ErrAppIDEmpty
+		return ErrSlackAppIDEmpty
 	}
 
 	if len(s.ClientID) == 0 {
-		return ErrClientIDEmpty
+		return ErrSlackClientIDEmpty
 	}
 
 	if len(s.ClientSecret) == 0 {
-		return ErrClientSecretEmpty
+		return ErrSlackClientSecretEmpty
 	}
 
 	if len(s.SigningSecret) == 0 {
-		return ErrSigningSecretEmpty
+		return ErrSlackSigningSecretEmpty
 	}
 
 	return nil
