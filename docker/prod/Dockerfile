@@ -1,4 +1,7 @@
-FROM golang:1.26-trixie AS build
+FROM --platform=$BUILDPLATFORM golang:1.26-trixie AS build
+
+ARG TARGETOS
+ARG TARGETARCH
 
 WORKDIR /src
 
@@ -6,6 +9,8 @@ COPY . .
 
 ENV CGO_ENABLED=0
 ENV GOPROXY=direct
+ENV GOOS=$TARGETOS
+ENV GOARCH=$TARGETARCH
 
 RUN go mod download && \
     go mod verify && \

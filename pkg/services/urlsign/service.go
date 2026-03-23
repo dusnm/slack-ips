@@ -6,7 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
-	"net/url"
+	"net/http"
 
 	"github.com/dusnm/slack-ips/pkg/config"
 	"github.com/rs/zerolog"
@@ -36,16 +36,12 @@ func New(
 // Sign
 //
 // Incredibly rudimentary function for HMAC-SHA256 URL
-// signing based on url.Values and a provided signing key.
-func (s *Service) Sign(
-	values url.Values,
-) ([]byte, error) {
-	if len(values) == 0 {
-		s.logger.Fatal().Msg("no values provided")
-	}
-
+// signing based on data of the http.Request and a provided signing key.
+func (s *Service) Sign(request *http.Request) ([]byte, error) {
 	buff := bytes.Buffer{}
-	buff.WriteString(values.Encode())
+	buff.WriteString(request.Method)
+	buff.WriteString(request.URL.Path)
+	buff.WriteString(request.URL.Query().Encode())
 
 	key, err := hex.DecodeString(s.cfg.SigningSecret)
 	if err != nil {
@@ -61,8 +57,11 @@ func (s *Service) Sign(
 	return hasher.Sum(nil), nil
 }
 
-func (s *Service) Verify(values url.Values, providedSignature []byte) error {
-	computedSignature, err := s.Sign(values)
+// Verify
+//
+// Verifies the signature in constant time.
+func (s *Service) Verify(request *http.Request, providedSignature []byte) error {
+	computedSignature, err := s.Sign(request)
 	if err != nil {
 		return err
 	}

@@ -14,7 +14,7 @@ tasks:
       - go build -ldflags='-s -w -extldflags "-static"' -o ./build/slack-ips ./main.go
   build-image:
     cmds:
-      - docker buildx build -f ./docker/prod/Dockerfile -t dusnm1/slack-ips:latest .
+      - docker buildx build --platform linux/amd64,linux/arm64 -f ./docker/prod/Dockerfile -t dusnm1/slack-ips:latest .
   run:
     cmds:
       - mkdir -p ./db

@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -47,7 +48,14 @@ func (s *Service) handleSendMessage(
 
 	uri := user.QRCodeURL(s.cfg, amount)
 	query := uri.Query()
-	signature, err := s.urlSignService.Sign(query)
+
+	requestForSigning, err := http.NewRequest(http.MethodGet, "/image", nil)
+	if err != nil {
+		return commandresponse.Message{}, err
+	}
+
+	requestForSigning.URL.RawQuery = query.Encode()
+	signature, err := s.urlSignService.Sign(requestForSigning)
 	if err != nil {
 		return commandresponse.Message{}, err
 	}

@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"net/url"
 	"strconv"
 	"strings"
 
@@ -28,13 +27,7 @@ func GET(
 		return httpserver.Err(http.StatusNotFound, w, httpserver.ErrNotFound)
 	}
 
-	userID := r.URL.Query().Get("userId")
-	amount := r.URL.Query().Get("amount")
 	providedSignatureStr := r.URL.Query().Get("sig")
-
-	if len(userID) == 0 {
-		return httpserver.Err(http.StatusUnprocessableEntity, w, httpserver.ErrUnprocessable)
-	}
 
 	if len(providedSignatureStr) == 0 {
 		return httpserver.Err(http.StatusUnprocessableEntity, w, httpserver.ErrUnprocessable)
@@ -45,15 +38,20 @@ func GET(
 		return httpserver.Err(http.StatusUnprocessableEntity, w, fmt.Errorf("%w: malformed signature", httpserver.ErrUnprocessable))
 	}
 
-	values := make(url.Values)
-	values.Add("userId", userID)
-	if len(amount) > 0 {
-		values.Add("amount", amount)
-	}
+	values := r.URL.Query()
+	values.Del("sig")
+	r.URL.RawQuery = values.Encode()
 
 	urlSignService := di.GetURLSignService()
-	if err = urlSignService.Verify(values, providedSignature); err != nil {
+	if err = urlSignService.Verify(r, providedSignature); err != nil {
 		return httpserver.Err(http.StatusForbidden, w, fmt.Errorf("%w: %w", httpserver.ErrForbidden, err))
+	}
+
+	userID := r.URL.Query().Get("userId")
+	amount := r.URL.Query().Get("amount")
+
+	if len(userID) == 0 {
+		return httpserver.Err(http.StatusUnprocessableEntity, w, httpserver.ErrUnprocessable)
 	}
 
 	user, err := di.GetUserRepository().FindByID(ctx, userID)
