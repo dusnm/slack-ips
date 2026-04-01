@@ -47,12 +47,15 @@ You can use prebuilt images from Docker Hub or you can build and tag them yourse
 docker buildx build --platform linux/amd64,linux/arm64 -f ./docker/prod/Dockerfile -t your_organization/slack-ips:latest .
 ```
 ## Configuration
-Initialize the SQLite database with the included shell script:
+Initialize the SQLite database with the `initdb` command:
 ```shell
-./initdb.sh
+./slack-ips initdb
 ```
 
-Use the included `config.example.toml` as a template for configuration.
+Use the `dump-config` command to print a configuration template to STDOUT.
+```shell
+./slack-ips dump-config > ./config.toml
+```
 
 The application looks for the configuration file in one of these locations and reads values from the first one found.
 * `./config.toml` (in the directory where you've placed the compiled binary)
@@ -73,9 +76,9 @@ The `signing_secret` in this section should be different from the `signing_secre
 Fill the `[db]` section with a `path` to your SQLite database.
 
 ## Running the application
-If you've configured everything correctly, simply run the application with:
+If you've configured everything correctly, simply run the application `serve` command with:
 ```shell
-/path/to/binary/slack-ips
+./slack-ips serve
 ```
 
 ## Licensing

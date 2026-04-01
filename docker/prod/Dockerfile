@@ -25,4 +25,4 @@ COPY --from=build /bin/slack-ips /bin/slack-ips
 RUN apt-get update && \
     apt-get install -y ca-certificates
 
-CMD ["/bin/slack-ips"]
+CMD ["/bin/slack-ips", "serve"]
