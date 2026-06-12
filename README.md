@@ -8,7 +8,7 @@ An HTTP backend for a Slack app that saves bank account numbers to allow for qui
 an instant payment technology in Serbia.
 
 ## Screenshots
-![Usage in slack](https://github.com/dusnm/slack-ips/blob/main/assets/screenshot-1.png?raw=true)
+![Usage in slack](https://github.com/dusnm/slack-ips/blob/main/misc/screenshot-1.png?raw=true)
 
 ## Prerequisites
 To use this backend, you must [create a Slack app](https://docs.slack.dev/app-management/quickstart-app-settings/) and install it in your workspace.
@@ -87,4 +87,4 @@ This application is free software, licensed under the terms of the GNU Affero Ge
 ## Remarks
 This project contains no AI generated code.
 
-![Developed by a human, not by AI](https://github.com/dusnm/slack-ips/blob/main/assets/no-ai-badge.png?raw=true)
+![Developed by a human, not by AI](https://github.com/dusnm/slack-ips/blob/main/misc/no-ai-badge.png?raw=true)
