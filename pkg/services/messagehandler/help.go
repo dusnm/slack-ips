@@ -61,7 +61,7 @@ func (s *Service) handleHelpMessage(ctx context.Context, msg slack.Message) (com
 				Type: "section",
 				Text: commandresponse.Text{
 					Type: "mrkdwn",
-					Text: "*Examples:*\n• `/ips init Malina Vojvodić,260-0056010016113-79,Beograd`\n• `/ips send 1500`\n• `/ips delete`\n• `/ips help`",
+					Text: "*Examples:*\n• `/ips init Malina Vojvodić,260-0056010016113-79,Beograd`\n• `/ips send 1500`\n• `/ips settings`\n• `/ips delete`\n• `/ips help`",
 				},
 			},
 		},
