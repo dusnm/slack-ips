@@ -19,7 +19,7 @@ type (
 
 	Server struct {
 		ctx      context.Context
-		di       *container.Container
+		DI       *container.Container
 		logger   zerolog.Logger
 		handlers []handler
 	}
@@ -40,7 +40,7 @@ func New(
 ) *Server {
 	return &Server{
 		ctx:    ctx,
-		di:     di,
+		DI:     di,
 		logger: logger,
 	}
 }
@@ -61,7 +61,7 @@ func (s *Server) Route(
 ) {
 	s.handlers = append(s.handlers, handler{
 		ctx:     s.ctx,
-		di:      s.di,
+		di:      s.DI,
 		pattern: pattern,
 		f:       f,
 		logger: s.logger.
@@ -78,7 +78,7 @@ func (s *Server) Register() {
 }
 
 func (s *Server) Serve() {
-	socket := s.di.GetConfig().App.Socket()
+	socket := s.DI.GetConfig().App.Socket()
 	s.logger.Info().Msgf("starting HTTP server on: http://%s", socket)
 	if err := http.ListenAndServe(socket, nil); err != nil {
 		s.logger.Fatal().Err(err).Msg("failed to start server")

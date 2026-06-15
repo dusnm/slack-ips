@@ -10,12 +10,13 @@ import (
 
 type (
 	User struct {
-		ID                string `json:"id"`
-		Username          string `json:"username"`
-		Name              string `json:"name"`
-		BankAccountNumber string `json:"bank_account_number"`
-		City              string `json:"city"`
-		IPSString         string `json:"ips_string"`
+		ID                string   `json:"id"`
+		Username          string   `json:"username"`
+		Name              string   `json:"name"`
+		BankAccountNumber string   `json:"bank_account_number"`
+		City              string   `json:"city"`
+		IPSString         string   `json:"ips_string"`
+		Settings          Settings `json:"settings"`
 	}
 )
 

@@ -1,0 +1,53 @@
+{{template "layout" .}}
+{{define "content"}}
+<h1>Settings</h1>
+<h3>Change your profile settings and personalize your QR code.</h3>
+<hr />
+<h4>Preview</h4>
+<p>An example of how your QR code should appear within Slack.</p>
+<ul>
+    <li>Name: {{ .User.Name }}</li>
+    <li>IBAN: {{ .User.BankAccountNumber }}</li>
+    <li>Place: {{ .User.City }}</li>
+    <li>Amount: 1000.00RSD</li>
+</ul>
+<img src="data:image/png;base64,{{ .QR.Base64Encode }}" width="300" height="300"  alt="logo preview" draggable="false"/>
+<hr />
+<form method="POST" enctype="multipart/form-data" action="/settings?expiresAt={{.ExpiresAt}}&sig={{.Signature}}&userId={{.User.ID}}">
+    <h4>Profile information</h4>
+    <label for="name">Name</label>
+    <input type="text" value="{{ .User.Name }}" placeholder="Malina Vojvodić" id="name" name="name" required/>
+    <label for="city">Place</label>
+    <input type="text" value="{{ .User.City }}" placeholder="Beograd" id="city" name="city" required/>
+    <label for="bank_account_number">IBAN</label>
+    <input type="text" value="{{ .User.BankAccountNumber }}" placeholder="260-0056010016113-79" id="bank_account_number" name="bank_account_number" required/>
+    <hr />
+    <h4>QR code personalization</h4>
+    <label for="fg_color">Foreground color</label>
+    <input type="color" id="fg_color" name="fg_color" value="{{ .User.Settings.GetQRFGColor }}"/>
+    <label for="bg_color">Background color</label>
+    <input type="color" id="bg_color" name="bg_color" value="{{ .User.Settings.GetQRBGColor }}"/>
+    <label for="shape">Shape</label>
+    <select id="shape" name="shape">
+        {{if eq .User.Settings.GetQRShape "square" }}
+        <option value="square" selected>Square</option>
+        <option value="circle">Circle</option>
+        {{else}}
+        <option value="square">Square</option>
+        <option value="circle" selected>Circle</option>
+        {{end}}
+    </select>
+    <label for="logo">Logo (Square and transparent images work best)</label>
+    <input type="file" id="logo" name="logo"/>
+    <label for="show_logo">Show logo?</label>
+    {{if .User.Settings.QRShowLogo }}
+    <input type="checkbox" id="show_logo" name="show_logo" checked/>
+    {{else}}
+    <input type="checkbox" id="show_logo" name="show_logo"/>
+    {{end}}
+    <hr />
+    <button>Save</button>
+</form>
+<hr />
+<p>© 2026 Developed with 🖤 by <a rel="noopener" target="_blank" href="https://dusanmitrovic.rs/">Dušan</a></p>
+{{end}}

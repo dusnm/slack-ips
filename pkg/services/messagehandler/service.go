@@ -14,10 +14,11 @@ import (
 )
 
 const (
-	initCommand   = "init"
-	sendCommand   = "send"
-	deleteCommand = "delete"
-	helpCommand   = "help"
+	initCommand     = "init"
+	sendCommand     = "send"
+	deleteCommand   = "delete"
+	settingsCommand = "settings"
+	helpCommand     = "help"
 )
 
 var (
@@ -75,6 +76,14 @@ func (s *Service) HandleMessage(ctx context.Context, msg slack.Message) (command
 			Str("user", msg.UserName).
 			Str("input", text).Send()
 		return s.handleDeleteMessage(ctx, msg)
+	case strings.HasPrefix(text, settingsCommand):
+		s.logger.
+			Debug().
+			Str("command", settingsCommand).
+			Str("user", msg.UserName).
+			Str("input", text).
+			Send()
+		return s.handleSettingsMessage(ctx, msg)
 	case strings.HasPrefix(text, helpCommand):
 		s.logger.
 			Debug().

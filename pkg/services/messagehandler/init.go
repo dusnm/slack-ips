@@ -89,11 +89,11 @@ func constructInitPayload(msg slack.Message) (command.Init, error) {
 		UserName:          msg.UserName,
 	}
 
-	if err := init.Validate(); err != nil {
+	if err := init.ValidateInit(); err != nil {
 		return command.Init{}, err
 	}
 
-	return init.Format(), nil
+	return init.FormatInit(), nil
 }
 
 func constructSuccessfulInitResponse() commandresponse.Message {

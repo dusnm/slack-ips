@@ -2,7 +2,9 @@ package container
 
 import (
 	"github.com/dusnm/slack-ips/pkg/services/messagehandler"
+	"github.com/dusnm/slack-ips/pkg/services/qr"
 	"github.com/dusnm/slack-ips/pkg/services/requestauth"
+	"github.com/dusnm/slack-ips/pkg/services/templating"
 	"github.com/dusnm/slack-ips/pkg/services/urlsign"
 )
 
@@ -47,4 +49,20 @@ func (c *Container) GetURLSignService() *urlsign.Service {
 	}
 
 	return c.urlSignService
+}
+
+func (c *Container) GetTemplateService() *templating.Service {
+	if c.templateService == nil {
+		c.templateService = templating.New(c.templatesFS)
+	}
+
+	return c.templateService
+}
+
+func (c *Container) GetQRService() *qr.Service {
+	if c.qrService == nil {
+		c.qrService = qr.New()
+	}
+
+	return c.qrService
 }

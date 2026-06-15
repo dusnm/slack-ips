@@ -3,6 +3,9 @@ package httpserver
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/dusnm/slack-ips/pkg/services/templating"
+	"github.com/dusnm/slack-ips/pkg/types"
 )
 
 func Err(status int, w http.ResponseWriter, err error) error {
@@ -24,4 +27,17 @@ func JSON(status int, w http.ResponseWriter, data any) error {
 	w.WriteHeader(status)
 	_, err = w.Write(body)
 	return err
+}
+
+func HTML(
+	status int,
+	w http.ResponseWriter,
+	templateService *templating.Service,
+	page types.Page,
+	data any,
+) error {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(status)
+
+	return templateService.Render(w, page, data)
 }

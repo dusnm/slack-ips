@@ -49,6 +49,10 @@ func (s *Service) handleHelpMessage(ctx context.Context, msg slack.Message) (com
 					},
 					commandresponse.Text{
 						Type: "mrkdwn",
+						Text: "*settings*\nAdjust profile settings and personalize your QR code.",
+					},
+					commandresponse.Text{
+						Type: "mrkdwn",
 						Text: "*help*\nShow this help message.",
 					},
 				},

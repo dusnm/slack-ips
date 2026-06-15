@@ -66,12 +66,12 @@ type (
 	}
 )
 
-// Format
+// FormatInit
 //
 // Must be called only after a successful
 // validation! Returns the same structure
 // with expanded Bank account number.
-func (i Init) Format() Init {
+func (i Init) FormatInit() Init {
 	// Dashed format
 	var (
 		bankCode       string
@@ -101,7 +101,7 @@ func (i Init) Format() Init {
 	}
 }
 
-func (i Init) Validate() error {
+func (i Init) ValidateInit() error {
 	validators := []func() error{
 		i.validateName,
 		i.validateBankAccountNumber,

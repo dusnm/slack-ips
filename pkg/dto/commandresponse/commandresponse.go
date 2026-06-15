@@ -7,9 +7,10 @@ type (
 	}
 
 	Section struct {
-		Type   string `json:"type"`
-		Text   Text   `json:"text,omitempty,omitzero"`
-		Fields []any  `json:"fields,omitempty"`
+		Type     string `json:"type"`
+		Text     Text   `json:"text,omitempty,omitzero"`
+		Fields   []any  `json:"fields,omitempty"`
+		Elements []any  `json:"elements,omitempty"`
 	}
 
 	Text struct {
@@ -21,5 +22,11 @@ type (
 		Type     string `json:"type"`
 		ImageURL string `json:"image_url"`
 		AltText  string `json:"alt_text"`
+	}
+
+	Button struct {
+		Type string `json:"type"`
+		Text Text   `json:"text"`
+		URL  string `json:"url"`
 	}
 )
