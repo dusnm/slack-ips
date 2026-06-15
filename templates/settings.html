@@ -40,7 +40,7 @@
     <label for="logo">Logo (Square and transparent images work best)</label>
     <input type="file" id="logo" name="logo"/>
     <label for="show_logo">Show logo?</label>
-    {{if .User.Settings.QRShowLogo }}
+    {{if .User.Settings.ShouldShowLogo }}
     <input type="checkbox" id="show_logo" name="show_logo" checked/>
     {{else}}
     <input type="checkbox" id="show_logo" name="show_logo"/>

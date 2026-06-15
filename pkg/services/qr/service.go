@@ -41,7 +41,7 @@ func (s *Service) Generate(user models.User, data string) (models.QR, error) {
 		options = append(options, standard.WithCircleShape())
 	}
 
-	if user.Settings.QRShowLogo && len(user.Settings.QRLogo) > 0 {
+	if user.Settings.ShouldShowLogo() && len(user.Settings.QRLogo) > 0 {
 		buff := bytes.NewReader(user.Settings.QRLogo)
 		// Always stored as a PNG
 		logo, err := png.Decode(buff)
