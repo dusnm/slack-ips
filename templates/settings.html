@@ -32,9 +32,17 @@
         {{if eq .User.Settings.GetQRShape "square" }}
         <option value="square" selected>Square</option>
         <option value="circle">Circle</option>
-        {{else}}
+        <option value="liquid">Liquid</option>
+        {{end}}
+        {{if eq .User.Settings.GetQRShape "circle"}}
         <option value="square">Square</option>
         <option value="circle" selected>Circle</option>
+        <option value="liquid">Liquid</option>
+        {{end}}
+        {{if eq .User.Settings.GetQRShape "liquid"}}
+            <option value="square">Square</option>
+            <option value="circle">Circle</option>
+            <option value="liquid" selected>Liquid</option>
         {{end}}
     </select>
     <label for="logo">Logo (Square and transparent images work best)</label>

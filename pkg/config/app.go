@@ -7,20 +7,22 @@ import (
 )
 
 var (
-	ErrAppBindEmpty          = errors.New("bind cannot be empty")
-	ErrAppPortEmpty          = errors.New("port must be greater than zero")
-	ErrAppDomainEmpty        = errors.New("domain cannot be empty")
-	ErrAppSigningSecretEmpty = errors.New("signing secret cannot be empty")
+	ErrAppBindEmpty                    = errors.New("bind cannot be empty")
+	ErrAppPortEmpty                    = errors.New("port must be greater than zero")
+	ErrAppDomainEmpty                  = errors.New("domain cannot be empty")
+	ErrAppSigningSecretEmpty           = errors.New("signing secret cannot be empty")
+	ErrAppUploadedFileSizeLimitInvalid = errors.New("uploaded file size must be greater than zero")
 )
 
 type (
 	App struct {
-		Bind          string `toml:"bind"`
-		Port          uint16 `toml:"port"`
-		Domain        string `toml:"domain"`
-		Secure        bool   `toml:"secure"`
-		BehindProxy   bool   `toml:"behind_proxy"`
-		SigningSecret string `toml:"signing_secret"`
+		Bind                  string  `toml:"bind"`
+		Port                  uint16  `toml:"port"`
+		Domain                string  `toml:"domain"`
+		Secure                bool    `toml:"secure"`
+		BehindProxy           bool    `toml:"behind_proxy"`
+		SigningSecret         string  `toml:"signing_secret"`
+		UploadedFileSizeLimit float64 `toml:"uploaded_file_size_limit"`
 	}
 )
 
@@ -39,6 +41,10 @@ func (a App) Validate() error {
 
 	if len(a.SigningSecret) == 0 {
 		return ErrAppSigningSecretEmpty
+	}
+
+	if a.UploadedFileSizeLimit <= 0 {
+		return ErrAppUploadedFileSizeLimitInvalid
 	}
 
 	return nil

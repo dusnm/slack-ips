@@ -12,9 +12,12 @@ tasks:
       - go mod download
       - go mod verify
       - go build -ldflags='-s -w -extldflags "-static"' -o ./build/slack-ips ./main.go
-  build-image:
+  buildx:
     cmds:
       - docker buildx build --platform linux/amd64,linux/arm64 -f ./docker/prod/Dockerfile -t dusnm1/slack-ips:latest .
+  buildx-push:
+    cmds:
+      - docker buildx build --platform linux/amd64,linux/arm64 -f ./docker/prod/Dockerfile -t dusnm1/slack-ips:latest --push .
   run:
     cmds:
       - mkdir -p ./db

@@ -18,6 +18,7 @@ domain = 'slack-ips.example.org'
 secure = true
 behind_proxy = true
 signing_secret = 'your_signing_secret'
+uploaded_file_size_limit = 3.5
 
 [slack]
 app_id = 'your_app_id'

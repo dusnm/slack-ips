@@ -26,7 +26,7 @@ var (
 		   user_id TEXT PRIMARY KEY,
 		   qr_fg_color VARCHAR(7),
 		   qr_bg_color VARCHAR(7),
-		   qr_shape VARCHAR(6) CHECK (qr_shape IN ('square', 'circle')), -- Poor man's enum
+		   qr_shape VARCHAR(6) CHECK (qr_shape IN ('square', 'circle', 'liquid')), -- Poor man's enum
 		   qr_logo BLOB,
 		   qr_show_logo BOOLEAN NOT NULL DEFAULT 0 CHECK (qr_show_logo IN (0, 1)),
 		   FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE

@@ -8,6 +8,7 @@ import (
 	"github.com/dusnm/slack-ips/pkg/models"
 	"github.com/yeqown/go-qrcode/v2"
 	"github.com/yeqown/go-qrcode/writer/standard"
+	"github.com/yeqown/go-qrcode/writer/standard/shapes"
 )
 
 type (
@@ -37,9 +38,17 @@ func (s *Service) Generate(user models.User, data string) (models.QR, error) {
 		standard.WithBuiltinImageEncoder(standard.PNG_FORMAT),
 	}
 
-	if user.Settings.GetQRShape() == "circle" {
-		options = append(options, standard.WithCircleShape())
+	var shape standard.IShape
+	switch user.Settings.GetQRShape() {
+	case "square":
+		shape = shapes.Assemble(shapes.SquareFinder(), shapes.SquareBlocks(1))
+	case "circle":
+		shape = shapes.Assemble(shapes.RoundedFinder(), shapes.CircleBlocks(0.8))
+	case "liquid":
+		shape = shapes.Assemble(shapes.RoundedFinder(), shapes.LiquidBlock())
 	}
+
+	options = append(options, standard.WithCustomShape(shape))
 
 	if user.Settings.ShouldShowLogo() && len(user.Settings.QRLogo) > 0 {
 		buff := bytes.NewReader(user.Settings.QRLogo)

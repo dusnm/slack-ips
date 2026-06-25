@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -87,7 +88,8 @@ func POST(
 
 	var logoBytes []byte
 	if logoFile != nil {
-		if logoFileHeader.Size > 1*constants.MiB {
+		sizeLimit := math.Round(di.GetConfig().App.UploadedFileSizeLimit * constants.MiB)
+		if logoFileHeader.Size > int64(sizeLimit) {
 			return httpserver.Err(http.StatusUnprocessableEntity, w, fmt.Errorf("%w: logo file too large", httpserver.ErrUnprocessable))
 		}
 

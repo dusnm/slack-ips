@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"image"
 	"image/png"
+	"slices"
 	"strings"
 
 	"github.com/dusnm/slack-ips/pkg/utils"
@@ -52,9 +53,15 @@ func (s Settings) Validate() error {
 	}
 
 	if s.QRShape != "" {
+		allowedShapes := []string{
+			"square",
+			"circle",
+			"liquid",
+		}
+
 		shape := strings.ToLower(strings.TrimSpace(s.QRShape))
-		if shape != "square" && shape != "circle" {
-			return fmt.Errorf("%w for qr shape, either square or circle is allowed", ErrInvalidValues)
+		if !slices.Contains(allowedShapes, shape) {
+			return fmt.Errorf("%w for qr shape, only square, circle and liquid are allowed", ErrInvalidValues)
 		}
 	}
 
@@ -64,8 +71,8 @@ func (s Settings) Validate() error {
 			return ErrDecodingLogo
 		}
 
-		if encoding != "png" && encoding != "jpg" {
-			return fmt.Errorf("%w only jpg and png are allowed", ErrInvalidLogoEncoding)
+		if encoding != "png" && encoding != "jpg" && encoding != "jpeg" {
+			return fmt.Errorf("%w only jpg/jpeg and png are allowed", ErrInvalidLogoEncoding)
 		}
 	}
 
