@@ -88,7 +88,10 @@ func (s *Service) Do(
 	textHeight := (metrics.Ascent + metrics.Descent).Round()
 	drawer.Dot = fixed.P(
 		(newW-captionWidth)/2,
-		canvasPadding/2+metrics.Ascent.Round()-textHeight/2,
+		// Arbitrary padding of 20 serves
+		// as a "fix" for the unknown, but consistent
+		// padding added by the QR code library.
+		canvasPadding/2+metrics.Ascent.Round()-textHeight/2+20,
 	)
 
 	drawer.DrawString(caption)
