@@ -23,6 +23,7 @@ const (
 	       s.qr_fg_color,
 	       s.qr_bg_color,
 	       s.qr_shape,
+	       s.qr_caption,
 	       s.qr_logo,
 	       s.qr_show_logo
 	FROM users u LEFT JOIN settings s ON u.id = s.user_id
@@ -116,6 +117,7 @@ func (r *Repository) FindByID(ctx context.Context, ID string) (models.User, erro
 		&result.Settings.QRFGColor,
 		&result.Settings.QRBGColor,
 		&result.Settings.QRShape,
+		&result.Settings.QRCaption,
 		&result.Settings.QRLogo,
 		&result.Settings.QRShowLogo,
 	)

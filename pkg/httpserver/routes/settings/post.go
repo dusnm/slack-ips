@@ -109,6 +109,7 @@ func POST(
 		QRFGColor:  r.Form.Get("fg_color"),
 		QRBGColor:  r.Form.Get("bg_color"),
 		QRShape:    r.Form.Get("shape"),
+		QRCaption:  r.Form.Get("caption"),
 		QRLogo:     logoBytes,
 		QRShowLogo: r.Form.Get("show_logo") == "on",
 	}

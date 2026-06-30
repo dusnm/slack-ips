@@ -29,6 +29,7 @@ var (
 		   qr_shape VARCHAR(6) CHECK (qr_shape IN ('square', 'circle', 'liquid')), -- Poor man's enum
 		   qr_logo BLOB,
 		   qr_show_logo BOOLEAN NOT NULL DEFAULT 0 CHECK (qr_show_logo IN (0, 1)),
+		   qr_caption VARCHAR(50),
 		   FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 		);
     `

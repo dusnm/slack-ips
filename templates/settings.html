@@ -23,6 +23,8 @@
     <input type="text" value="{{ .User.BankAccountNumber }}" placeholder="260-0056010016113-79" id="bank_account_number" name="bank_account_number" required/>
     <hr />
     <h4>QR code personalization</h4>
+    <label for="caption">Caption (Optional)</label>
+    <input type="text" id="caption" name="caption" min="1" max="50" placeholder="REMEDIUM HOMINUBUS" value="{{.User.Settings.GetQRCaption}}"/>
     <label for="fg_color">Foreground color</label>
     <input type="color" id="fg_color" name="fg_color" value="{{ .User.Settings.GetQRFGColor }}"/>
     <label for="bg_color">Background color</label>

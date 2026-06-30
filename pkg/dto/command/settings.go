@@ -10,12 +10,13 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/dusnm/slack-ips/pkg/utils"
+	"github.com/dusnm/slack-ips/pkg/imgutil"
 )
 
 var (
 	ErrInvalidHexColor     = errors.New("invalid hex color")
 	ErrInvalidValues       = errors.New("invalid values")
+	ErrCaptionTooLong      = errors.New("caption too long")
 	ErrDecodingLogo        = errors.New("decoding logo failed")
 	ErrInvalidLogoEncoding = errors.New("invalid logo encoding")
 )
@@ -26,6 +27,7 @@ type (
 		QRFGColor  string
 		QRBGColor  string
 		QRShape    string
+		QRCaption  string
 		QRLogo     []byte
 		QRShowLogo bool
 	}
@@ -65,6 +67,13 @@ func (s Settings) Validate() error {
 		}
 	}
 
+	if s.QRCaption != "" {
+		caption := strings.TrimSpace(s.QRCaption)
+		if len(caption) > 50 {
+			return ErrCaptionTooLong
+		}
+	}
+
 	if len(s.QRLogo) > 0 {
 		_, encoding, err := image.DecodeConfig(bytes.NewReader(s.QRLogo))
 		if err != nil {
@@ -85,7 +94,7 @@ func (s Settings) Format() Settings {
 		img, _, _ := image.Decode(bytes.NewReader(s.QRLogo))
 
 		w := bytes.NewBuffer(nil)
-		img = utils.ResizeImage(img, 140, 140)
+		img = imgutil.ResizeImage(img, 140, 140, imgutil.ResizeFit)
 
 		// A disaster waiting to happen
 		_ = png.Encode(w, img)
@@ -95,9 +104,10 @@ func (s Settings) Format() Settings {
 
 	return Settings{
 		Init:       s.FormatInit(),
-		QRFGColor:  s.QRFGColor,
-		QRBGColor:  s.QRBGColor,
-		QRShape:    s.QRShape,
+		QRFGColor:  strings.TrimSpace(s.QRFGColor),
+		QRBGColor:  strings.TrimSpace(s.QRBGColor),
+		QRShape:    strings.TrimSpace(s.QRShape),
+		QRCaption:  strings.TrimSpace(s.QRCaption),
 		QRLogo:     logo,
 		QRShowLogo: s.QRShowLogo,
 	}

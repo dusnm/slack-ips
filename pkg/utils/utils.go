@@ -1,11 +1,5 @@
 package utils
 
-import (
-	"image"
-
-	"golang.org/x/image/draw"
-)
-
 // MergeMaps
 //
 // Merges N maps into a new map.
@@ -26,10 +20,3 @@ func MergeMaps[K comparable, V any](maps ...map[K]V) map[K]V {
 	return merged
 }
 
-func ResizeImage(img image.Image, width int, height int) image.Image {
-	resizedImg := image.NewRGBA(image.Rect(0, 0, width, height))
-
-	draw.CatmullRom.Scale(resizedImg, resizedImg.Bounds(), img, img.Bounds(), draw.Over, nil)
-
-	return resizedImg
-}

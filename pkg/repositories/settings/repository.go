@@ -18,16 +18,18 @@ const (
 		user_id, 
 	    qr_fg_color, 
 		qr_bg_color, 
-	    qr_shape, 
+	    qr_shape,
+	    qr_caption,
 	    qr_logo,
 	    qr_show_logo
 	) 
-	VALUES (?, ?, ?, ?, ?, ?) 
+	VALUES (?, ?, ?, ?, ?, ?, ?) 
 	ON CONFLICT(user_id) DO 
 	UPDATE SET 
 		qr_fg_color=excluded.qr_fg_color,
 	    qr_bg_color=excluded.qr_bg_color,
 	    qr_shape=excluded.qr_shape,
+	    qr_caption=excluded.qr_caption,
 	    qr_logo=
 	        CASE 
 				WHEN excluded.qr_logo IS NOT NULL AND settings.qr_logo != excluded.qr_logo
@@ -39,6 +41,7 @@ const (
 	    qr_fg_color,
 	    qr_bg_color,
 	    qr_shape,
+	    qr_caption,
 	    qr_logo,
 	    qr_show_logo
 	`
@@ -91,6 +94,7 @@ func (r *Repository) UpsertByUserID(
 		payload.QRFGColor,
 		payload.QRBGColor,
 		payload.QRShape,
+		payload.QRCaption,
 		payload.QRLogo,
 		payload.QRShowLogo,
 	)
@@ -99,6 +103,7 @@ func (r *Repository) UpsertByUserID(
 		&result.QRFGColor,
 		&result.QRBGColor,
 		&result.QRShape,
+		&result.QRCaption,
 		&result.QRLogo,
 		&result.QRShowLogo,
 	)

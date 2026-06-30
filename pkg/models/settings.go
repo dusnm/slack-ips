@@ -6,6 +6,7 @@ type Settings struct {
 	QRFGColor  sql.NullString `json:"qr_fg_color"`
 	QRBGColor  sql.NullString `json:"qr_bg_color"`
 	QRShape    sql.NullString `json:"qr_shape"`
+	QRCaption  sql.NullString `json:"qr_caption"`
 	QRLogo     []byte         `json:"qr_logo"`
 	QRShowLogo sql.NullBool   `json:"qr_show_logo"`
 }
@@ -32,6 +33,14 @@ func (s Settings) GetQRShape() string {
 	}
 
 	return "square"
+}
+
+func (s Settings) GetQRCaption() string {
+	if s.QRCaption.Valid {
+		return s.QRCaption.String
+	}
+
+	return ""
 }
 
 func (s Settings) ShouldShowLogo() bool {

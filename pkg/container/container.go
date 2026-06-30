@@ -10,6 +10,7 @@ import (
 	"github.com/dusnm/slack-ips/pkg/repositories/user"
 	"github.com/dusnm/slack-ips/pkg/services/messagehandler"
 	"github.com/dusnm/slack-ips/pkg/services/qr"
+	"github.com/dusnm/slack-ips/pkg/services/qrcaption"
 	"github.com/dusnm/slack-ips/pkg/services/requestauth"
 	"github.com/dusnm/slack-ips/pkg/services/templating"
 	"github.com/dusnm/slack-ips/pkg/services/urlsign"
@@ -27,6 +28,7 @@ type (
 		urlSignService        *urlsign.Service
 		templateService       *templating.Service
 		qrService             *qr.Service
+		qrCaptionService      *qrcaption.Service
 		AssetsFS              embed.FS
 		templatesFS           embed.FS
 		logger                zerolog.Logger
